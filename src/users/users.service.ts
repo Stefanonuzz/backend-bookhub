@@ -1,7 +1,7 @@
 // src/users/users.service.ts
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, ILike } from 'typeorm';
 import { User } from '../entities/user.entity';
 import * as bcrypt from 'bcrypt';
 
@@ -42,6 +42,13 @@ export class UsersService {
 
         return this.usersRepository.save(newUser);
     }
+
+    async searchByName(name: string): Promise<User[]> {
+        return this.usersRepository.find({
+            where: { name: ILike(`%${name}%`) },
+        });
+    }
+
 
     async remove(id: number): Promise<void> {
         await this.usersRepository.delete(id);
