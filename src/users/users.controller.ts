@@ -11,7 +11,7 @@ export class UsersController {
     @UseGuards(JwtAuthGuard)
     @Get('me')
     async getProfile(@Request() req): Promise<Partial<User> | null> {
-        // req.user può venire con proprietà diverse (userId o id)
+
         const id = req.user?.userId ?? req.user?.id ?? null;
         if (!id) return null;
 
@@ -22,12 +22,10 @@ export class UsersController {
         return safe;
     }
 
-
+    @UseGuards(JwtAuthGuard)
     @Get('search')
     async searchUser(@Query('name') name: string): Promise<User[]> {
-        if (!name) return new Promise(function(resolve, reject) {
-            resolve([]);
-        });
+        if (!name) return [];
         return this.usersService.searchByName(name);
     }
 

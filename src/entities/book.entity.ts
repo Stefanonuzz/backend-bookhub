@@ -14,12 +14,6 @@ export class Book {
     @Column()
     author: string;
 
-    @Column()
-    genre: string;
-
-    @Column({ nullable: true })
-    publishedYear: number;
-
     @ManyToOne(() => User, user => user.books)
     user: User;
 
@@ -28,4 +22,5 @@ export class Book {
 
     @CreateDateColumn()
     createdAt: Date;
+
 }
